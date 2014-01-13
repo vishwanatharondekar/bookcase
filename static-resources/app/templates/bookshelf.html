@@ -1,0 +1,8 @@
+<div class="bookshelf-container" style="margin: 10px;">
+	<div style="background: fuchsia;">{{model.attributes.title}}</div>
+	<div class="js-books-container">
+		{{#each collection.models}}
+			<div class="js-book {{cid}}">{{attributes.title}}</div>
+		{{/each}}
+	</div>
+</div>
