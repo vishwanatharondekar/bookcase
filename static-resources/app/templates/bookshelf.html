@@ -1,4 +1,4 @@
-<div class="bookshelf-container" style="margin: 10px;">
+<div class="bookshelf-container {{model.cid}}" data-id="{{model.cid}}" style="margin: 10px;">
 	<div style="background: fuchsia;">{{model.attributes.title}}</div>
 	<div class="js-books-container">
 		{{#each collection.models}}

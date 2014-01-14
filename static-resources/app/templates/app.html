@@ -1,9 +1,24 @@
 <div class="">
-	<div class="js-select-bookcase">Select bookcase button here</div>
 	<div class="js-book-case-button" data-bookcase=".js-user-bookcase">User Bookcase</div>
 	<div class="js-book-case-button" data-bookcase=".js-genre-bookcase">Genre BookCase</div>
 	<div class="js-bookcase-container">
 		<div class="js-book-case js-user-bookcase">User Bookcase</div>
 		<div class="js-book-case js-genre-bookcase">Genre BookCase</div>
+	</div>
+	<div class="">
+		<div class="new-book-form">
+			<div><span>Name : </span><input type=text class="js-book-title"></div>
+			<div><span>Author : </span><input type=text class="js-book-author"></div>
+			<div><span>Genre : </span>
+				<select class="js-book-genre">
+					<option value="Technology">Technology</option>
+					<option value="Sci Fi">Sci Fi</option>
+					<option value="Biography">Biography</option>
+					<option value="Fantasy">Fantasy</option>
+				</select>
+			</div>
+			<div><span>ISBN : </span><input type=text class="js-book-isbn"></div>
+			<input type=button value="Save Book" class="btn-save-book">
+		</div>
 	</div>
 </div>

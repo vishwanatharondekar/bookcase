@@ -3,7 +3,8 @@ define(function(require){
 	
 	var Handlebars = require('handlebars');
 	var Backbone = require('backbone');
-	var BookCase = require('./views/bookcase');
+	var UserBookCase = require('./views/userbookcase');
+	var GenreBookCase = require('./views/genrebookcase');
 	var BookShelfModel = require('./models/bookshelfmodel');
 	var BookModel = require('./models/bookmodel');
 	var BookShelfView = require('./views/bookshelf');
@@ -136,14 +137,9 @@ define(function(require){
 				bookShelfArray = bookShelfs;
 			} else {
 				bookShelfArray = userBookCaseData.bookcase;
-				
 			}
-			
 
 			var allGeneres = {};
-			
-			
-			
 			for(var index in bookShelfArray){
 				var bookShelf = bookShelfArray[index];
 				var books = bookShelf.books;
@@ -172,11 +168,12 @@ define(function(require){
 			}
 			this.render();
 
-			this.userBookCase = new BookCase({el : this.$('.js-user-bookcase'), bookShelfs : userBookShelfsDataArray, type : 'user'});
-			this.genreBookCase = new BookCase({el : this.$('.js-genre-bookcase'), bookShelfs : genreBookShelfsDataArray, type :  'genre'});
+			this.userBookCase = new UserBookCase({el : this.$('.js-user-bookcase'), bookShelfs : userBookShelfsDataArray, type : 'user', draggable : true});
+			this.genreBookCase = new GenreBookCase({el : this.$('.js-genre-bookcase'), bookShelfs : genreBookShelfsDataArray, type :  'genre'});
 		},
 		events : {
-			'.js-book-case-button' : 'showBookCase' 
+			'click .js-book-case-button' : 'showBookCase' ,
+			'click .btn-save-book' : 'saveBook' 
 		},
 		render : function(){
 			$(this.el).html(this.template());
@@ -185,9 +182,19 @@ define(function(require){
 		template : Handlebars.compile(require('text!./templates/app.html')),
 		showBookCase : function(bookCase){
 			this.$('.js-book-case').hide();
-			
-			var bookCaseToShow = $(event.currentTarget).data('bookcase');
+			var bookCaseToShow = $(event.target).data('bookcase');
 			this.$(bookCaseToShow).show('slow');
+		},
+		saveBook : function(){
+			var book = {
+                "title": this.$('.js-book-title').val(),
+                "isbn": this.$('.js-book-isbn').val(),
+                "author": this.$('.js-book-author').val(),
+                "genre": this.$('.js-book-genre').val()
+			};
+			var bookModel = new Backbone.Model(book);
+			this.books.add(bookModel);
+			Backbone.Events.trigger('BOOK:ADDED', bookModel);
 		}
 	});
 	
