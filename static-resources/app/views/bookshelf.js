@@ -6,6 +6,11 @@ define(function(require) {
 
 	var BookShelf = Backbone.View.extend({
 		initialize : function(options) {
+			var self = this;
+			this.listenTo(this.collection, 'remove', function(){
+				console.log('Element deleted');
+				self.render();
+			})
 			this.render();
 		},
 		template : Handlebars
