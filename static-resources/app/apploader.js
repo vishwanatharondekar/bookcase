@@ -137,10 +137,8 @@ define(function(require){
 					booksCollectionForShelf.add(bookModel);
 				}
 				delete bookShelf.books;
-				//Backbone.sync("create", booksCollectionForShelf);
 				
 				var bookShelfModel = new BookShelfModel(bookShelf);
-				Backbone.sync("create", bookShelfModel);
 				userBookShelfsDataArray.push({model : bookShelfModel, collection : booksCollectionForShelf});
 			}
 			
@@ -150,16 +148,9 @@ define(function(require){
 				var booksCollectionForShelf = new Backbone.Collection(this.books.filter(function(book) {
 					return book.get("genre") === genre;
 				}));
-				
-				//Backbone.sync("create", booksCollectionForShelf);
-				
 				var bookShelfModel = new BookShelfModel({ "title": genre});
-				Backbone.sync("create", bookShelfModel);
 				genreBookShelfsDataArray.push({model : bookShelfModel, collection : booksCollectionForShelf});
 			}
-			
-			
-			//bookShelfModel.destroy();
 			this.render();
 
 			this.userBookCase = new BookCase({el : this.$('.js-user-bookcase'), bookShelfs : userBookShelfsDataArray});
