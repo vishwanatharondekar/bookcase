@@ -38,6 +38,12 @@ define(function(require) {
 			var shelfToRemoveBook = $('.bookshelf-container.'+event.originalEvent.dataTransfer.getData('shelftoremovebook'));
 			var bookToRemove = event.originalEvent.dataTransfer.getData('booktoremove');
 			//shelfToAddBook.trigger('bookDropped', bookToRemove);
+			
+			//Dropping on self
+			if(shelfToRemoveBook[0]===shelfToAddBook[0]){
+				return;
+			}
+			
 			shelfToRemoveBook.trigger('removeBook', bookToRemove);
 			
 			$('.js-book.' +bookToRemove).trigger('addToShelf', shelfToAddBook);
