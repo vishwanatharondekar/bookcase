@@ -118,7 +118,27 @@ define(function(require){
 			booksGlobal = this.books = new BookCollection();
 			
 			var userBookShelfsDataArray = new Array();
-			var bookShelfArray = userBookCaseData.bookcase;
+			
+			var bookShelfArray = null;
+			if(localStorage['bookCase-user']){
+				var localStorageData = JSON.parse(localStorage['bookCase-user']);
+				var localBookShelfs = localStorageData.bookShelfs;
+				var bookShelfs = [];
+				
+				for(var index in localBookShelfs){
+					var localBookShelf = localBookShelfs[index];
+					var objBookShelf = {};
+					_.extend(objBookShelf, localBookShelf.model);
+					_.extend(objBookShelf, {books : localBookShelf.collection});
+					bookShelfs.push(objBookShelf);
+				}
+				console.log('bookShelfs Calculated from localStorage' ,  bookShelfs);
+				bookShelfArray = bookShelfs;
+			} else {
+				bookShelfArray = userBookCaseData.bookcase;
+				
+			}
+			
 
 			var allGeneres = {};
 			
@@ -131,7 +151,6 @@ define(function(require){
 				
 				for(var bookIndex in books){
 					var bookModel = new BookModel(books[bookIndex]);
-					Backbone.sync("create", bookModel);
 					this.books.add(bookModel);
 					allGeneres[books[bookIndex].genre]=true;
 					booksCollectionForShelf.add(bookModel);
@@ -153,8 +172,8 @@ define(function(require){
 			}
 			this.render();
 
-			this.userBookCase = new BookCase({el : this.$('.js-user-bookcase'), bookShelfs : userBookShelfsDataArray});
-			this.genreBookCase = new BookCase({el : this.$('.js-genre-bookcase'), bookShelfs : genreBookShelfsDataArray});
+			this.userBookCase = new BookCase({el : this.$('.js-user-bookcase'), bookShelfs : userBookShelfsDataArray, type : 'user'});
+			this.genreBookCase = new BookCase({el : this.$('.js-genre-bookcase'), bookShelfs : genreBookShelfsDataArray, type :  'genre'});
 		},
 		events : {
 			'.js-book-case-button' : 'showBookCase' 

@@ -8,7 +8,8 @@ define(function(require) {
 		initialize : function(options) {
 			var self = this;
 			this.listenTo(this.collection, 'remove', function(){
-				console.log('Element deleted');
+ 				Backbone.Events.trigger('BookCaseChanged' + options.bookCase.attributes.type);
+				
 				self.render();
 			})
 			this.render();
